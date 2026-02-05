@@ -1,0 +1,63 @@
+@Level4BankingAPI_HostAddress = http://localhost:5021
+
+# @name create
+POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
+Content-Type: application/json
+
+{
+  "name": "Ryan L Yuncza"
+}
+
+> {%
+    client.global.set("id", response.body.id)
+%}
+
+<> 2026-01-23T142444.200.json
+
+###
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
+
+<> 2026-01-23T142500.200.json
+<> 2026-01-23T142459.200.json
+<> 2026-01-23T142451.200.json
+<> 2026-01-23T142450.200.json
+<> 2026-01-23T142448.200.json
+<> 2026-01-23T142447.200.json
+
+###
+POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
+Content-Type: application/json
+
+{
+  "Amount": 250
+}
+
+<> 2026-01-23T142457.200.json
+<> 2026-01-23T142456.200.json
+
+###
+POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/withdraws
+Content-Type: application/json
+
+{
+  "Amount": 200
+}
+
+###
+POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/transfers
+Content-Type: application/json
+
+{
+  "Amount": 1,
+  "SenderId": "{{id}}",
+  "ReceiverId": "{{id}}"
+}
+
+###
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
+Content-Type: application/json
+
+{
+  "CurrencyType": "EUR,CAD"
+}
+

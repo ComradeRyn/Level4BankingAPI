@@ -1,0 +1,39 @@
+﻿using Level4BankingAPI.Interfaces;
+using Level4BankingAPI.Models;
+
+namespace Level4BankingAPI.Repositories;
+
+public class AccountsRepository : IAccountsRepository
+{
+    private readonly AccountContext _context;
+
+    public AccountsRepository(AccountContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<Account?> GetAccount(string id)
+        => await _context.Accounts.FindAsync(id);
+
+    public async Task<Account> AddAccount(string name)
+    {
+        var account = new Account
+        {
+            Id = Guid.NewGuid().ToString(),
+            HolderName = name,
+        };
+        
+        await _context.Accounts.AddAsync(account);
+        await _context.SaveChangesAsync();
+
+        return account;
+    }
+
+    public async Task<Account> UpdateAccount(Account account, decimal amount)
+    {
+        account.Balance += amount;
+        await _context.SaveChangesAsync();
+
+        return account;
+    }
+}
