@@ -8,7 +8,6 @@ namespace Level4BankingAPI.Repositories;
 
 public class AccountsRepository : IAccountsRepository
 {
-    private const int MaxPageSize = 20;
     private readonly AccountContext _context;
 
     public AccountsRepository(AccountContext context)
@@ -22,11 +21,6 @@ public class AccountsRepository : IAccountsRepository
         int pageNumber, 
         int pageSize)
     {
-        if (pageSize > MaxPageSize)
-        {
-            pageSize = MaxPageSize;
-        }
-
         if (pageNumber <= 0)
         {
             pageNumber = 1;

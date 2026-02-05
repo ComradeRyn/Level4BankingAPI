@@ -11,6 +11,7 @@ namespace Level4BankingAPI.Services;
 public class AccountsService
 {
     private const string NameRegexp = @"([A-Z][a-z]+)\s(([A-Z][a-z]*)\s)?([A-Z][a-z]+)";
+    private const int MaxPageSize = 20;
     private readonly IAccountsRepository _accountsRepository;
     private readonly ICurrencyClient _currencyClient;
 
@@ -18,6 +19,23 @@ public class AccountsService
     {
         _accountsRepository = accountsRepository;
         _currencyClient = currencyClient;
+    }
+    
+    public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata)> GetAccounts(GetAccountsRequest request)
+    {
+        if (request.PageSize > MaxPageSize)
+        {
+            // request.PageSize = MaxPageSize;
+        }
+        
+        var (matchedAccounts, paginationMetadata) = await _accountsRepository.GetAccounts(
+            request.Name,
+            request.SortType,
+            request.SortOrder,
+            request.PageNumber,
+            request.PageSize);
+
+        return (new ApiResponse<IEnumerable<Account>>(matchedAccounts.AsDto()), paginationMetadata);
     }
 
     public async Task<ApiResponse<Account>> GetAccount(string id)
