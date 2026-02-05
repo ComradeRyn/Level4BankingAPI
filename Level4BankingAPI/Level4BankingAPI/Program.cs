@@ -4,6 +4,7 @@ using Level4BankingAPI.Interfaces;
 using Level4BankingAPI.Models;
 using Level4BankingAPI.Repositories;
 using Level4BankingAPI.Services;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,24 @@ builder.Services.AddHttpClient<ICurrencyClient, CurrencyClient>(client =>
 
 builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
 builder.Services.AddScoped<AccountsService>();
+builder.Services.AddScoped<AuthenticationService>();
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                ValidAudience = builder.Configuration["Authentication:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    // TODO: take a look and see if there is a better way
+                    Convert.FromBase64String(builder.Configuration["Authentication:SecretForKey"]!))
+            };
+        }
+    );
 
 var app = builder.Build();
 
@@ -35,6 +54,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

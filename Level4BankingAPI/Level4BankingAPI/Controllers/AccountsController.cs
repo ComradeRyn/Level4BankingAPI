@@ -4,11 +4,13 @@ using Level4BankingAPI.Models.DTOs.Requests;
 using Level4BankingAPI.Models.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Level4BankingAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Level4BankingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly AccountsService _service;

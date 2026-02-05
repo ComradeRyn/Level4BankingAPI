@@ -2,10 +2,11 @@
 
 # @name create
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "name": "Kyle L Yuncza"
+  "name": "Ryan L Yuncza"
 }
 
 > {%
@@ -16,6 +17,7 @@ Content-Type: application/json
 
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
+Authorization: Bearer {{auth_token}}
 
 <> 2026-01-23T142500.200.json
 <> 2026-01-23T142459.200.json
@@ -27,6 +29,7 @@ GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
 ###
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "Amount": 250
@@ -38,6 +41,7 @@ Content-Type: application/json
 ###
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/withdraws
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "Amount": 200
@@ -46,6 +50,7 @@ Content-Type: application/json
 ###
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/transfers
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "Amount": 1,
@@ -56,6 +61,7 @@ Content-Type: application/json
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "CurrencyType": "EUR,CAD"
@@ -64,8 +70,17 @@ Content-Type: application/json
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortType=balance&pageNumber=1&pageSize=20
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   
 }
 
+###
+# @name create
+GET http://{{Level4BankingAPI_HostAddress}}/api/Authentication
+Content-Type: application/json
+
+> {%
+    client.global.set("auth_token", response.body.token)
+%}
