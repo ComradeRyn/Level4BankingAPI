@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Level4BankingAPI.Models.DTOs;
 using Level4BankingAPI.Models.DTOs.Requests;
 using Level4BankingAPI.Models.DTOs.Responses;
@@ -15,6 +16,28 @@ namespace Level4BankingAPI.Controllers
         public AccountsController(AccountsService service)
         {
             _service = service;
+        }
+
+        // TODO: document this endpoint
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(string? name,
+            string? sortType,
+            string? sortOrder,
+            int pageNumber = 1,
+            int pageSize = 10)
+        {
+            // TODO: if any error handling is needed in the future, implement
+            var (response, paginationMetadata) = await _service.GetAccounts(new GetAccountsRequest(
+                name,
+                sortType, 
+                sortOrder, 
+                pageNumber, 
+                pageSize));
+            
+            Response.Headers.Append("X-Pagination",
+                JsonSerializer.Serialize(paginationMetadata));
+            
+            return Ok(response.Content);
         }
 
         /// <summary>

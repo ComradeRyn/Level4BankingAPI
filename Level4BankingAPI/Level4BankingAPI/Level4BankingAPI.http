@@ -61,3 +61,11 @@ Content-Type: application/json
   "CurrencyType": "EUR,CAD"
 }
 
+###
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts
+Content-Type: application/json
+
+{
+  
+}
+
