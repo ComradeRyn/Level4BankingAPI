@@ -18,15 +18,26 @@ namespace Level4BankingAPI.Controllers
             _service = service;
         }
 
-        // TODO: document this endpoint
+        /// <summary>
+        /// Retrieves a list of accounts based off the parameters.
+        /// </summary>
+        /// <param name="name">Name which is filtered by. Null by default</param>
+        /// <param name="sortType">Determines which way the list will be sorted. Accepts name and balance, and is
+        /// null by default</param>
+        /// <param name="reverse">Determines if the sort order will be reversed. False by default</param>
+        /// <param name="pageNumber">Sets the page that will be retrieved. 1 by default</param>
+        /// <param name="pageSize">Sets the number of entries which will appear on a given page. 10 by default</param>
+        /// <returns>A list of accounts based off the entered parameters. If no parameters are entered,
+        /// all entries are returned</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Account>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(string? name,
             string? sortType,
             bool reverse = false,
             int pageNumber = 1,
             int pageSize = 10)
         {
-            // TODO: if any error handling is needed in the future, implement
             var (response, paginationMetadata) = await _service.GetAccounts(new GetAccountsRequest(
                 name,
                 sortType, 
