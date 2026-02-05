@@ -3,6 +3,6 @@
 public record GetAccountsRequest(
     string? Name,
     string? SortType,
-    string? SortOrder,
+    bool Reverse,
     int PageNumber,
     int PageSize);

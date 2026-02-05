@@ -21,17 +21,26 @@ public class AccountsService
         _currencyClient = currencyClient;
     }
     
-    public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata)> GetAccounts(GetAccountsRequest request)
+    public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
         if (request.PageSize > MaxPageSize)
         {
-            // request.PageSize = MaxPageSize;
+            return (new ApiResponse<IEnumerable<Account>>(
+                HttpStatusCode.NotFound, Messages.InvalidPageSize), null);
+        }
+
+        if (request.SortType is not null 
+            && request.SortType is not "name" 
+            && request.SortType is not "balance")
+        {
+            return (new ApiResponse<IEnumerable<Account>>(
+                HttpStatusCode.BadRequest, Messages.InvalidSearchType), null);
         }
         
         var (matchedAccounts, paginationMetadata) = await _accountsRepository.GetAccounts(
             request.Name,
             request.SortType,
-            request.SortOrder,
+            request.Reverse,
             request.PageNumber,
             request.PageSize);
 

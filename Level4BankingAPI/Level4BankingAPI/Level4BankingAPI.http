@@ -5,7 +5,7 @@ POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
 Content-Type: application/json
 
 {
-  "name": "Ryan L Yuncza"
+  "name": "Kyle L Yuncza"
 }
 
 > {%
@@ -62,7 +62,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortType=balance&pageNumber=1&pageSize=20
 Content-Type: application/json
 
 {

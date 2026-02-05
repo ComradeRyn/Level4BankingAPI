@@ -7,7 +7,7 @@ public interface IAccountsRepository
 {
     Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
         string? sortType, 
-        string? sortOrder,
+        bool reverse,
         int pageNumber, 
         int pageSize);
     Task<Account?> GetAccount(string id);

@@ -17,16 +17,30 @@ public class AccountsRepository : IAccountsRepository
 
     public async Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
         string? sortType, 
-        string? sortOrder, 
+        bool reverse, 
         int pageNumber, 
         int pageSize)
     {
-        if (pageNumber <= 0)
+        var collection = _context.Accounts as IQueryable<Account>;
+
+        if (!string.IsNullOrWhiteSpace(name))
         {
-            pageNumber = 1;
+            name = name.Trim();
+            collection = collection.Where(account => account.HolderName.Contains(name));
         }
 
-        var collection = _context.Accounts as IQueryable<Account>;
+        if (!string.IsNullOrWhiteSpace(sortType))
+        {
+            switch (sortType)
+            {
+                case "name":
+                    collection = collection.OrderBy(account => account.HolderName);
+                    break;
+                case "balance":
+                    collection = collection.OrderBy(account => account.Balance);
+                    break;
+            }
+        }
 
         var itemCount = await collection.CountAsync();
 
@@ -34,10 +48,22 @@ public class AccountsRepository : IAccountsRepository
             pageSize,
             pageNumber);
 
-        var collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
-            .Take(pageSize)
-            .ToListAsync();
-
+        // TODO: make this working solution better
+        List<Account> collectionToReturn;
+        if (reverse)
+        {
+            collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .Reverse()
+                .ToListAsync();
+        }
+        else
+        {
+            collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        
         return (collectionToReturn, paginationMetadata);
     }
 

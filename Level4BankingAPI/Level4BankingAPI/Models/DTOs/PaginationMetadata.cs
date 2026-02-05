@@ -2,9 +2,10 @@
 
 public record PaginationMetadata
 {
-    public int TotalItemCount { get; }
+    // TODO: revisit this class's properties for possible refactoring
+    private int TotalItemCount { get; }
     public int TotalPageCount { get; }
-    public int PageSize { get; }
+    private int PageSize { get; }
     public int CurrentPage { get; }
 
     public PaginationMetadata(int totalItemCount, int pageSize, int currentPage)

@@ -22,7 +22,7 @@ namespace Level4BankingAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(string? name,
             string? sortType,
-            string? sortOrder,
+            bool reverse = false,
             int pageNumber = 1,
             int pageSize = 10)
         {
@@ -30,12 +30,16 @@ namespace Level4BankingAPI.Controllers
             var (response, paginationMetadata) = await _service.GetAccounts(new GetAccountsRequest(
                 name,
                 sortType, 
-                sortOrder, 
+                reverse, 
                 pageNumber, 
                 pageSize));
             
-            Response.Headers.Append("X-Pagination",
-                JsonSerializer.Serialize(paginationMetadata));
+            if (!response.IsSuccess)
+            {
+                return StatusCode((int)response.StatusCode, response.ErrorMessage);
+            }
+            
+            Response.Headers.Append("X-Pagination",JsonSerializer.Serialize(paginationMetadata));
             
             return Ok(response.Content);
         }
