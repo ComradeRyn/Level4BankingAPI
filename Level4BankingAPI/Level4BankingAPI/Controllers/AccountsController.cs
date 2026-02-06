@@ -10,7 +10,7 @@ namespace Level4BankingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly AccountsService _service;

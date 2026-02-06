@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Text;
 using Level4BankingAPI.Models.DTOs;
 using Level4BankingAPI.Models.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -26,27 +25,23 @@ public class CsvOutputFormatter : TextOutputFormatter
     {
         var httpContext = context.HttpContext;
         var buffer = new StringBuilder();
-
-        var toConvert = context.Object;
-        if (toConvert is Account or TokenResponse)
+        
+        if (context.Object is Account or TokenResponse)
         {
-            CreateSingleObjectCsvHeader(toConvert, buffer);
+            CreateSingleObjectCsvHeader(context.Object, buffer);
             buffer.Append('\n');
-            CreateSingleObjectCsvRow(toConvert, buffer);
+            CreateSingleObjectCsvRow(context.Object, buffer);
         }
         
-        else if (toConvert is ConversionResponse conversionResponse)
+        else if (context.Object is ConversionResponse conversionResponse)
         {
             DictionaryToCsv(conversionResponse.ConvertedCurrencies, buffer);
         }
         
-        else if(toConvert is List<Account> accounts)
+        else if(context.Object is List<Account> accounts)
         {
-            if (accounts.Count != 0)
-            {
-                CreateSingleObjectCsvHeader(accounts[0], buffer);
-                buffer.Append('\n');
-            }
+            CreateSingleObjectCsvHeader(accounts[0], buffer);
+            buffer.Append('\n');
 
             for (var i = 0; i < accounts.Count; i++)
             {

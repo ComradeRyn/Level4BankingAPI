@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Reflection.Metadata;
-
-namespace Level4BankingAPI.Middleware;
+﻿namespace Level4BankingAPI.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
@@ -19,7 +16,7 @@ public class ExceptionHandlingMiddleware
             await _next(context);
         }
         // TODO: look back into this to see if more specific action should be taken
-        catch(Exception exception)
+        catch
         {
             await HandleExceptionAsync(context);
         }
@@ -28,10 +25,8 @@ public class ExceptionHandlingMiddleware
     private async Task HandleExceptionAsync(HttpContext context)
     {
         context.Response.ContentType = "application/json";
-        // context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         await context.Response.WriteAsJsonAsync(new
         {
-            // context.Response.StatusCode,
             Message = "Something went wrong"
         });
     }
