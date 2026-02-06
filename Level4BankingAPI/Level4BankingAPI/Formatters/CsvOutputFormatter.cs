@@ -79,7 +79,15 @@ public class CsvOutputFormatter : TextOutputFormatter
         var propertyInfos = toConvert.GetType().GetProperties();
         for (var i = 0; i < propertyInfos.Length; i++)
         {
-            buffer.Append(propertyInfos[i].GetValue(toConvert));
+            if (propertyInfos[i].PropertyType == typeof(string))
+            {
+                buffer.Append($"\"{propertyInfos[i].GetValue(toConvert)}\"");
+            }
+            else
+            {
+                buffer.Append(propertyInfos[i].GetValue(toConvert));
+            }
+            
             if (i < propertyInfos.Length - 1)
             {
                 buffer.Append(',');

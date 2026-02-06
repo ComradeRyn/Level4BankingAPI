@@ -9,6 +9,7 @@ using Level4BankingAPI.Repositories;
 using Level4BankingAPI.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using NuGet.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 
