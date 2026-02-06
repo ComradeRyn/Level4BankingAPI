@@ -6,6 +6,7 @@ using Level4BankingAPI.Models;
 using Level4BankingAPI.Repositories;
 using Level4BankingAPI.Services;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +23,20 @@ builder.Services.AddSwaggerGen(setupAction =>
     var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
     
     setupAction.IncludeXmlComments(xmlCommentsFullPath);
-});
+    
+    setupAction.AddSecurityDefinition("BankingApiBearerAuth", new OpenApiSecurityScheme()
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Input a valid token to access this API"
+    });
 
+    setupAction.AddSecurityRequirement(document => new OpenApiSecurityRequirement()
+    {
+        [new OpenApiSecuritySchemeReference("BankingApiBearerAuth", document)] = []
+    });
+});
 
 builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("AccountList"));
 

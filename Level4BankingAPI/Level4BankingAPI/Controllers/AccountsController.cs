@@ -21,14 +21,14 @@ namespace Level4BankingAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieves a list of accounts based off the parameters.
+        /// Retrieves a list of accounts based off the parameters
         /// </summary>
-        /// <param name="name">Name which is filtered by. Null by default</param>
+        /// <param name="name">Name which is used to filter results</param>
         /// <param name="sortType">Determines which way the list will be sorted. Accepts name and balance, and is
         /// null by default</param>
-        /// <param name="reverse">Determines if the sort order will be reversed. False by default</param>
-        /// <param name="pageNumber">Sets the page that will be retrieved. 1 by default</param>
-        /// <param name="pageSize">Sets the number of entries which will appear on a given page. 10 by default</param>
+        /// <param name="reverse">Determines if the sort order will be reversed</param>
+        /// <param name="pageNumber">Sets the page that will be retrieved</param>
+        /// <param name="pageSize">Sets the number of entries which will appear on a given page</param>
         /// <returns>A list of accounts based off the entered parameters. If no parameters are entered,
         /// all entries are returned</returns>
         [HttpGet]
