@@ -57,7 +57,7 @@ public class CsvOutputFormatter : TextOutputFormatter
                 }
             }
         }
-
+        
         await httpContext.Response.WriteAsync(buffer.ToString(), selectedEncoding);
     }
 

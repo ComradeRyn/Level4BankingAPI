@@ -17,7 +17,6 @@ Accept: application/json
 
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
-Accept: text/csv
 
 <> 2026-01-23T142500.200.json
 <> 2026-01-23T142459.200.json

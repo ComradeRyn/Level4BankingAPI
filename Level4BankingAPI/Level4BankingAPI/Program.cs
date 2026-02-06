@@ -17,9 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
-    options.ReturnHttpNotAcceptable = true;
     
-    options.OutputFormatters.Insert(1, new CsvOutputFormatter());
+    options.ReturnHttpNotAcceptable = true;
+    options.OutputFormatters.Add(new CsvOutputFormatter());
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
