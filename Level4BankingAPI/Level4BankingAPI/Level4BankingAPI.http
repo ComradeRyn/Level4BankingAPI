@@ -4,6 +4,7 @@
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "name": "Ryan L Yuncza"
@@ -17,6 +18,7 @@ Accept: application/json
 
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
+Authorization: Bearer {{auth_token}}
 
 <> 2026-01-23T142500.200.json
 <> 2026-01-23T142459.200.json
@@ -29,6 +31,7 @@ GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
 Content-Type: application/json
 Accept: text/csv
+Authorization: Bearer {{auth_token}}
 
 {
   "Amount": 250
