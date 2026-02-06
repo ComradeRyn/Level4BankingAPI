@@ -2,8 +2,8 @@
 
 # @name create
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
-Authorization: Bearer {{auth_token}}
 Content-Type: application/json
+Accept: application/json
 
 {
   "name": "Ryan L Yuncza"
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
-Authorization: Bearer {{auth_token}}
+Accept: text/csv
 
 <> 2026-01-23T142500.200.json
 <> 2026-01-23T142459.200.json
@@ -29,7 +29,7 @@ Authorization: Bearer {{auth_token}}
 ###
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
 Content-Type: application/json
-Authorization: Bearer {{auth_token}}
+Accept: text/csv
 
 {
   "Amount": 250
@@ -61,7 +61,7 @@ Authorization: Bearer {{auth_token}}
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
 Content-Type: application/json
-Authorization: Bearer {{auth_token}}
+Accept: text/csv
 
 {
   "CurrencyType": "EUR,CAD"
@@ -70,7 +70,7 @@ Authorization: Bearer {{auth_token}}
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortType=balance&pageNumber=1&pageSize=20
 Content-Type: application/json
-Authorization: Bearer {{auth_token}}
+Accept: application/json
 
 {
   

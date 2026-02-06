@@ -1,7 +1,9 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Level4BankingAPI.Clients;
+using Level4BankingAPI.Formatters;
 using Level4BankingAPI.Interfaces;
+using Level4BankingAPI.Middleware;
 using Level4BankingAPI.Models;
 using Level4BankingAPI.Repositories;
 using Level4BankingAPI.Services;
@@ -12,7 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.ReturnHttpNotAcceptable = true;
+    
+    options.OutputFormatters.Insert(1, new CsvOutputFormatter());
+});
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer(); 
@@ -74,6 +81,10 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{ 
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
 }
 
 app.UseHttpsRedirection();
