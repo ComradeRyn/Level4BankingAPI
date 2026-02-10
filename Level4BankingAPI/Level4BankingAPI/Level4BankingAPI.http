@@ -7,7 +7,7 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "name": "Ryan L Yuncza"
+  "name": "Colin L Yuncza"
 }
 
 > {%
@@ -73,6 +73,7 @@ Accept: text/csv
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortType=balance&pageNumber=1&pageSize=20
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   

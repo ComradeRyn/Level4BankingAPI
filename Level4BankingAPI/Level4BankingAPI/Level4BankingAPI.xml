@@ -70,6 +70,18 @@
             </summary>
             <returns>A JWT allowing access to Accounts controller </returns>
         </member>
+        <member name="T:Level4BankingAPI.Migrations.AccountDBInitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:Level4BankingAPI.Migrations.AccountDBInitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Level4BankingAPI.Migrations.AccountDBInitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Level4BankingAPI.Migrations.AccountDBInitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:Program">
             <summary>
             Auto-generated public partial Program class for top-level statement apps.
