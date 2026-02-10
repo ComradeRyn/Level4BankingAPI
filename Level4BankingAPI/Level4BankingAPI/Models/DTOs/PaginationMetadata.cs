@@ -1,9 +1,16 @@
 ﻿namespace Level4BankingAPI.Models.DTOs;
 
-public class PaginationMetadata(int totalItemCount, int pageSize, int currentPage)
+public record PaginationMetadata
 {
-    private int TotalItemCount { get; } = totalItemCount;
     public int TotalPageCount => (int)Math.Ceiling(TotalItemCount / (double)PageSize);
-    private int PageSize { get; } = pageSize;
-    public int CurrentPage { get; } = currentPage;
+    public int CurrentPage { get; }
+    private int PageSize { get; }
+    private int TotalItemCount { get; }
+
+    public PaginationMetadata(int totalItemCount, int pageSize, int currentPage)
+    {
+        TotalItemCount = totalItemCount;
+        PageSize = pageSize;
+        CurrentPage = currentPage;
+    }
 }
