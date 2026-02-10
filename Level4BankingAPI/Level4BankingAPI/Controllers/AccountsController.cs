@@ -26,7 +26,7 @@ namespace Level4BankingAPI.Controllers
         /// <param name="name">Name which is used to filter results</param>
         /// <param name="sortType">Determines which way the list will be sorted. Accepts name and balance, and is
         /// null by default</param>
-        /// <param name="reverse">Determines if the sort order will be reversed</param>
+        /// <param name="isDescending">Determines if the sort order will be Ascending or Descending</param>
         /// <param name="pageNumber">Sets the page that will be retrieved</param>
         /// <param name="pageSize">Sets the number of entries which will appear on a given page</param>
         /// <returns>A list of accounts based off the entered parameters. If no parameters are entered,
@@ -36,17 +36,16 @@ namespace Level4BankingAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(string? name,
             string? sortType,
-            bool reverse = false,
+            bool isDescending = false,
             int pageNumber = 1,
             int pageSize = 10)
         {
             var (response, paginationMetadata) = await _service.GetAccounts(new GetAccountsRequest(
                 name,
                 sortType, 
-                reverse, 
+                isDescending, 
                 pageNumber, 
                 pageSize));
-            
             if (!response.IsSuccess)
             {
                 return StatusCode((int)response.StatusCode, response.ErrorMessage);

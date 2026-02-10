@@ -17,12 +17,11 @@ public class AccountsRepository : IAccountsRepository
 
     public async Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
         string? sortType, 
-        bool reverse, 
+        bool IsDescending, 
         int pageNumber, 
         int pageSize)
     {
         var collection = _context.Accounts as IQueryable<Account>;
-
         if (!string.IsNullOrWhiteSpace(name))
         {
             name = name.Trim();
@@ -43,14 +42,12 @@ public class AccountsRepository : IAccountsRepository
         }
 
         var itemCount = await collection.CountAsync();
-
         var paginationMetadata = new PaginationMetadata(itemCount,
             pageSize,
             pageNumber);
-
-        // TODO: make this working solution better
+        
         List<Account> collectionToReturn;
-        if (reverse)
+        if (IsDescending)
         {
             collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
