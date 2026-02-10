@@ -15,7 +15,6 @@ public class AuthenticationService
     
     public TokenResponse CreateToken()
     {
-        // TODO: take a look back at the secret in configuration
         var securityKey = new SymmetricSecurityKey(
             Convert.FromBase64String(_configuration["Authentication:SecretForKey"]!));
         

@@ -58,8 +58,6 @@ builder.Services.AddScoped<AuthenticationService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtOptions =>
 {
-    // TODO: look into the metadata property
-    jwtOptions.Authority = builder.Configuration["Authentication:Authority"];
     jwtOptions.Audience = builder.Configuration["Authentication:Audience"];
     jwtOptions.TokenValidationParameters = new TokenValidationParameters
     {
