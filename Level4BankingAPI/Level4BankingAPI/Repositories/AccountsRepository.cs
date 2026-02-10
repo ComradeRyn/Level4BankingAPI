@@ -17,20 +17,20 @@ public class AccountsRepository : IAccountsRepository
 
     public async Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
         string? sortType, 
-        bool IsDescending, 
+        bool isDescending, 
         int pageNumber, 
         int pageSize)
     {
         var collection = _context.Accounts as IQueryable<Account>;
         if (!string.IsNullOrWhiteSpace(name))
         {
-            name = name.Trim();
+            name = name.ToLower().Trim();
             collection = collection.Where(account => account.HolderName.Contains(name));
         }
 
         if (!string.IsNullOrWhiteSpace(sortType))
         {
-            switch (sortType)
+            switch (sortType.ToLower().Trim())
             {
                 case "name":
                     collection = collection.OrderBy(account => account.HolderName);
@@ -47,7 +47,7 @@ public class AccountsRepository : IAccountsRepository
             pageNumber);
         
         List<Account> collectionToReturn;
-        if (IsDescending)
+        if (isDescending)
         {
             collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
