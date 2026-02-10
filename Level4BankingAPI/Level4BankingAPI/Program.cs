@@ -45,8 +45,6 @@ builder.Services.AddSwaggerGen(setupAction =>
     });
 });
 
-// builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("AccountList"));
-// TODO: find the connection string
 builder.Services.AddDbContext<AccountContext>(opt => 
     opt.UseSqlServer(builder.Configuration.GetConnectionString("AccountContext")));
 
