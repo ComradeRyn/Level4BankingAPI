@@ -3,7 +3,7 @@
 public static class Messages
 {
     public static readonly string InvalidPageSize 
-        = $"Requested page size must be less than or equal to {Restrictions.MaxPageSize}";
+        = $"Requested page size must be less than or equal to {Values.MaxPageSize}";
     public const string NotFound = "Requested Account could not be found";
     public const string InsufficientBalance = "Requested amount must be less or equal to current balance";
     public const string NoNegativeAmount = "Requested amount must be positive";

@@ -21,7 +21,7 @@ public class AccountsService
     
     public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
-        if (request.PageSize > Restrictions.MaxPageSize)
+        if (request.PageSize > Values.MaxPageSize)
         {
             return (new ApiResponse<IEnumerable<Account>>(
                 HttpStatusCode.NotFound, Messages.InvalidPageSize), null);
@@ -163,5 +163,5 @@ public class AccountsService
     }
 
     private bool ValidateName(string name)
-        => Regex.IsMatch(name, Restrictions.NameRegexp);
+        => Regex.IsMatch(name, Values.NameRegexp);
 }
