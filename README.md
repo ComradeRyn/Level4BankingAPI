@@ -2,6 +2,7 @@
 This project is an API meant to simulate a banking system.
 
 ## Functionality
+This API allows for:
 * Creation of an account
 * Querying existing accounts with different parameters
 * Fetching a specific account
@@ -21,3 +22,16 @@ This is how the conversion functionality is facilitated. The API key can be plac
 `ApiWebAddress` variable.
 * A SQL server to store the account data. Your connection string can be placed into the appsettings json as the 
 `AccountContext` variable.
+
+## Dependencies
+This project uses the following packages which can all be obtained through the nuget package manager:
+* `Microsoft.AspNetCore.Authentication.JwtBearer`
+* `Microsoft.AspNetCore.OpenApi`
+* `Microsoft.EntityFrameworkCore`
+* `Microsoft.EntityFrameworkCore.SqlServer`
+* `Microsoft.EntityFrameworkCore.Tools`
+* `Microsoft.IdentityModel.Tokens`
+* `Microsoft.VisualStudio.Web.CodeGeneration.Design`
+* `Swashbuckle.AspNetCore`
+* `System.IdentityModel.Tokens.Jwt`
+
