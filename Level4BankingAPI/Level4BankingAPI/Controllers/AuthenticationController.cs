@@ -18,7 +18,7 @@ namespace Level4BankingAPI.Controllers
         /// <summary>
         /// Creates a JWT
         /// </summary>
-        /// <returns>A JWT allowing access to Accounts controller </returns>
+        /// <returns>A JWT allowing access to Accounts controller</returns>
         [HttpGet]
         public ActionResult<TokenResponse> GetAuthenticationToken()
             => Ok(_service.CreateToken());
