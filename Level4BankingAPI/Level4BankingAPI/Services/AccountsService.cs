@@ -29,9 +29,9 @@ public class AccountsService
                 null);
         }
 
-        if (request.SortType is not null 
-            && request.SortType is not "name" 
-            && request.SortType is not "balance")
+        if (request.SortBy is not null 
+            && request.SortBy is not "name" 
+            && request.SortBy is not "balance")
         {
             return (new ApiResponse<IEnumerable<Account>>(
                 HttpStatusCode.BadRequest, 
@@ -41,7 +41,7 @@ public class AccountsService
         
         var (matchedAccounts, paginationMetadata) = await _accountsRepository.GetAccounts(
             request.Name,
-            request.SortType,
+            request.SortBy,
             request.Reverse,
             request.PageNumber,
             request.PageSize);

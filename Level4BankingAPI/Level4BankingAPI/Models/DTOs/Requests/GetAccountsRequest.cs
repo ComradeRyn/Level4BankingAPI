@@ -2,7 +2,7 @@
 
 public record GetAccountsRequest(
     string? Name,
-    string? SortType,
+    string? SortBy,
     bool Reverse,
     int PageNumber,
     int PageSize);
