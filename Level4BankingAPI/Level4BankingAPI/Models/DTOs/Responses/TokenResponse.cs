@@ -1,3 +1,6 @@
-﻿namespace Level4BankingAPI.Models.DTOs.Responses;
+﻿using Level4BankingAPI.Interfaces;
+using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
 
-public record TokenResponse(string Token);
+namespace Level4BankingAPI.Models.DTOs.Responses;
+
+public record TokenResponse(string Token) : IFormattable;

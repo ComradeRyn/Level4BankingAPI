@@ -1,5 +1,8 @@
-﻿namespace Level4BankingAPI.Models.DTOs;
+﻿using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
 
-public record Account(string Id, 
-    string HolderName, 
-    decimal Amount);
+namespace Level4BankingAPI.Models.DTOs;
+
+public record Account(
+    string Id,
+    string HolderName,
+    decimal Amount) : IFormattable;

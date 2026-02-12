@@ -20,7 +20,7 @@ public class AccountsService
         _currencyClient = currencyClient;
     }
     
-    public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
+    public async Task<(ApiResponse<GetAccountsResponse>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
         if (request.PageSize <= 0)
         {
@@ -29,7 +29,7 @@ public class AccountsService
         
         if (request.SortBy is not (null or "name" or "balance"))
         {
-            return (new ApiResponse<IEnumerable<Account>>(
+            return (new ApiResponse<GetAccountsResponse>(
                 HttpStatusCode.BadRequest, 
                 Messages.InvalidSearchType), 
                 null);
@@ -42,7 +42,7 @@ public class AccountsService
             request.PageNumber,
             request.PageSize);
 
-        return (new ApiResponse<IEnumerable<Account>>(matchedAccounts.AsDto()), paginationMetadata);
+        return (new ApiResponse<GetAccountsResponse>(matchedAccounts.AsDto()), paginationMetadata);
     }
 
     public async Task<ApiResponse<Account>> GetAccount(string id)
