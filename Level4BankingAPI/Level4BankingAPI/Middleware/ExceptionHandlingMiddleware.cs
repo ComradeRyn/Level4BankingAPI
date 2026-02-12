@@ -1,4 +1,6 @@
-﻿namespace Level4BankingAPI.Middleware;
+﻿using System.Net;
+
+namespace Level4BankingAPI.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
@@ -15,7 +17,6 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
-        // TODO: look back into this to see if more specific action should be taken
         catch
         {
             await HandleExceptionAsync(context);
@@ -24,6 +25,7 @@ public class ExceptionHandlingMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context)
     {
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsJsonAsync(new
         {

@@ -79,7 +79,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 { 
-    app.UseMiddleware<ExceptionHandlingMiddleware>();
+    app.UseMiddleware<ExceptionHandlingMiddleware>();   
 }
 
 app.UseHttpsRedirection();
