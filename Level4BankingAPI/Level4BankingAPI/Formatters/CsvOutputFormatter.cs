@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using Level4BankingAPI.Models.DTOs;
 using Level4BankingAPI.Models.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -10,7 +11,6 @@ public class CsvOutputFormatter : TextOutputFormatter
     public CsvOutputFormatter()
     {
         SupportedMediaTypes.Add("text/csv");
-        
         SupportedEncodings.Add(Encoding.UTF8);
         SupportedEncodings.Add(Encoding.Unicode);
     }
@@ -23,79 +23,79 @@ public class CsvOutputFormatter : TextOutputFormatter
 
     public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
     {
-        var httpContext = context.HttpContext;
         var buffer = new StringBuilder();
-        
         if (context.Object is Account or TokenResponse)
         {
-            CreateSingleObjectCsvHeader(context.Object, buffer);
+            CreateHeader(context.Object, buffer);
             buffer.Append('\n');
-            CreateSingleObjectCsvRow(context.Object, buffer);
+            CreateRow(context.Object, buffer);
         }
         
         else if (context.Object is ConversionResponse conversionResponse)
         {
-            DictionaryToCsv(conversionResponse.ConvertedCurrencies, buffer);
+            ConvertDictionary(conversionResponse.ConvertedCurrencies, buffer);
         }
         
         else if(context.Object is List<Account> accounts)
         {
-            CreateSingleObjectCsvHeader(accounts[0], buffer);
-            buffer.Append('\n');
-
-            for (var i = 0; i < accounts.Count; i++)
+            CreateHeader(accounts[0], buffer);
+            foreach (var account in accounts)
             {
-                CreateSingleObjectCsvRow(accounts[i], buffer);
-                if (i < accounts.Count - 1)
-                {
-                    buffer.Append('\n');
-                }
+                buffer.Append('\n');
+                CreateRow(account, buffer);
             }
         }
         
-        await httpContext.Response.WriteAsync(buffer.ToString(), selectedEncoding);
+        await context.HttpContext.Response.WriteAsync(buffer.ToString(), selectedEncoding);
     }
 
-    private void CreateSingleObjectCsvHeader(object toConvert, StringBuilder buffer)
+    private void CreateHeader(object toConvert, StringBuilder buffer)
     {
         var propertyInfos = toConvert.GetType().GetProperties();
-        for (var i = 0; i < propertyInfos.Length; i++)
+        buffer.Append(propertyInfos[0].Name);
+        for (var i = 1; i < propertyInfos.Length; i++)
         {
+            buffer.Append(',');
             buffer.Append(propertyInfos[i].Name);
-            if (i < propertyInfos.Length - 1)
-            {
-                buffer.Append(',');
-            }
         }
     }
 
-    private void CreateSingleObjectCsvRow(object toConvert, StringBuilder buffer)
+    private void CreateRow(object toConvert, StringBuilder buffer)
     {
         var propertyInfos = toConvert.GetType().GetProperties();
-        for (var i = 0; i < propertyInfos.Length; i++)
+        if (propertyInfos.Length != 0)
         {
-            if (propertyInfos[i].PropertyType == typeof(string))
-            {
-                buffer.Append($"\"{propertyInfos[i].GetValue(toConvert)}\"");
-            }
-            else
-            {
-                buffer.Append(propertyInfos[i].GetValue(toConvert));
-            }
-            
-            if (i < propertyInfos.Length - 1)
-            {
-                buffer.Append(',');
-            }
+            AppendValue(toConvert, propertyInfos[0], buffer);
+        }
+        
+        for (var i = 1; i < propertyInfos.Length; i++)
+        {
+            buffer.Append(',');
+            AppendValue(toConvert, propertyInfos[i], buffer);
         }
     }
 
-    private void DictionaryToCsv(IDictionary<string, decimal> toConvert, StringBuilder buffer)
+    private void ConvertDictionary(IDictionary<string, decimal> toConvert, StringBuilder buffer)
     {
         buffer.Append("CurrencyType,Value");
         foreach (var keyValuePair in toConvert)
         {
             buffer.Append($"\n{keyValuePair.Key},{keyValuePair.Value}");
+        }
+    }
+
+    private void AppendValue(object toConvert, 
+        PropertyInfo propertyInfo, 
+        StringBuilder buffer)
+    {
+        if (propertyInfo.PropertyType == typeof(string))
+        {
+            buffer.Append($"\"{propertyInfo.GetValue(toConvert)}\"");
+        }
+            
+        else
+        {
+            buffer.Append(propertyInfo.GetValue(toConvert));
         }
     }
 }

@@ -61,9 +61,8 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/82868a0d-a7ab-4f7d-a64a-6077ae2094ee/convert
 Content-Type: application/json
-Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
@@ -84,6 +83,7 @@ Authorization: Bearer {{auth_token}}
 # @name create
 GET http://{{Level4BankingAPI_HostAddress}}/api/Authentication
 Content-Type: application/json
+Accept: text/csv
 
 > {%
     client.global.set("auth_token", response.body.token)

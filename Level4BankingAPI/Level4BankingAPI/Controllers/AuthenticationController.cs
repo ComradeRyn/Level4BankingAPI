@@ -16,7 +16,7 @@ namespace Level4BankingAPI.Controllers
         }
         
         /// <summary>
-        /// Creates a JWT allowing access to the Accounts controller
+        /// Creates a JWT
         /// </summary>
         /// <returns>A JWT allowing access to Accounts controller </returns>
         [HttpGet]
