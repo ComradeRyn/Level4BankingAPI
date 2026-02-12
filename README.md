@@ -12,7 +12,8 @@ This project is an API meant to simulate a banking system.
 
 ## Usage
 This API can be interacted with through its endpoints. While launched in develper mode, these endpoint are exposed 
-through a Swagger page with can be found at http://localhost:5021/swagger/index.html.
+through a Swagger page with can be found at http://localhost:5021/swagger/index.html. This page contains documentation on each endpoint
+and their parameters.
 ## Hosting
 After cloning the project, the requirements to host this API on your machine are the following:
 * An API key to the web address https://api.freecurrencyapi.com. 
