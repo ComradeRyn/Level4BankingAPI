@@ -5,4 +5,7 @@ public record GetAccountsRequest(
     string? SortBy,
     bool Reverse,
     int PageNumber,
-    int PageSize);
+    int PageSize)
+{
+    public int PageSize { get; set; } = PageSize;
+}

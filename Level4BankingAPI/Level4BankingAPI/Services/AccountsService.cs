@@ -10,6 +10,7 @@ namespace Level4BankingAPI.Services;
 
 public class AccountsService
 {
+    private const string NameRegexp = @"([A-Z][a-z]+)\s(([A-Z][a-z]*)\s)?([A-Z][a-z]+)";
     private readonly IAccountsRepository _accountsRepository;
     private readonly ICurrencyClient _currencyClient;
 
@@ -21,17 +22,12 @@ public class AccountsService
     
     public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
-        if (request.PageSize is > Values.MaxPageSize or <= 0)
+        if (request.PageSize <= 0)
         {
-            return (new ApiResponse<IEnumerable<Account>>(
-                HttpStatusCode.NotFound, 
-                Messages.InvalidPageSize), 
-                null);
+            request.PageSize = 1;
         }
-
-        if (request.SortBy is not null 
-            && request.SortBy is not "name" 
-            && request.SortBy is not "balance")
+        
+        if (request.SortBy is not (null or "name" or "balance"))
         {
             return (new ApiResponse<IEnumerable<Account>>(
                 HttpStatusCode.BadRequest, 
@@ -167,5 +163,5 @@ public class AccountsService
     }
 
     private bool ValidateName(string name)
-        => Regex.IsMatch(name, Values.NameRegexp);
+        => Regex.IsMatch(name, NameRegexp);
 }
