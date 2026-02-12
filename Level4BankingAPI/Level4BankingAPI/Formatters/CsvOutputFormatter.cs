@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
 
