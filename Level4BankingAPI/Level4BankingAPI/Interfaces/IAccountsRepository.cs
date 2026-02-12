@@ -6,7 +6,7 @@ namespace Level4BankingAPI.Interfaces;
 public interface IAccountsRepository
 {
     Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
-        string? sortType, 
+        string? sortBy, 
         bool isDescending,
         int pageNumber, 
         int pageSize);

@@ -16,46 +16,46 @@ public class AccountsRepository : IAccountsRepository
     }
 
     public async Task<(IEnumerable<Account>, PaginationMetadata)> GetAccounts(string? name, 
-        string? sortType, 
+        string? sortBy, 
         bool isDescending, 
         int pageNumber, 
         int pageSize)
     {
-        var collection = _context.Accounts as IQueryable<Account>;
+        var query = _context.Accounts as IQueryable<Account>;
         if (!string.IsNullOrWhiteSpace(name))
         {
-            name = name.ToLower().Trim();
-            collection = collection.Where(account => account.HolderName.Contains(name));
+            name = name.Trim();
+            query = query.Where(account => account.HolderName.Contains(name));
         }
 
-        if (!string.IsNullOrWhiteSpace(sortType))
+        if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            switch (sortType)
+            query = (sortBy, isDescending) switch
             {
-                case "name":
-                    collection = collection.OrderBy(account => account.HolderName);
-                    break;
-                case "balance":
-                    collection = collection.OrderBy(account => account.Balance);
-                    break;
-            }
+                ("name", true) => query.OrderByDescending(account => account.HolderName),
+                ("balance", true) => query.OrderByDescending(account => account.Balance),
+                ("name", false) => query.OrderBy(account => account.HolderName),
+                ("balance", false) => query.OrderBy(account => account.Balance),
+                _ => null
+            };
         }
 
-        var itemCount = await collection.CountAsync();
+        if (query is null)
+        {
+            return (new List<Account>(), 
+                new PaginationMetadata(0, pageSize, pageNumber));
+        }
+        
+        var itemCount = await query.CountAsync();
         var paginationMetadata = new PaginationMetadata(itemCount,
             pageSize,
             pageNumber);
         
-        var collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
+        var accounts = await query.Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
-        
-        if (isDescending)
-        {
-            collectionToReturn.Reverse();
-        }
 
-        return (collectionToReturn, paginationMetadata);
+        return (accounts, paginationMetadata);
     }
 
     public async Task<Account?> GetAccount(string id)
