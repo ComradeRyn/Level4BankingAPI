@@ -23,7 +23,7 @@ namespace Level4BankingAPI.Controllers
         /// <summary>
         /// Retrieves a list of accounts based off user specifications
         /// </summary>
-        /// <param name="name">Only results that contain this name will be reported</param>
+        /// <param name="name">Only results that contain this name will be reported. Null be default</param>
         /// <param name="sortType">Determines which way the list will be sorted. Accepts name and balance, and is
         /// null by default</param>
         /// <param name="isDescending">Determines if the sort order will be Ascending or Descending</param>

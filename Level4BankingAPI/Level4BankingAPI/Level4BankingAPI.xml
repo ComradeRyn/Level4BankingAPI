@@ -6,9 +6,9 @@
     <members>
         <member name="M:Level4BankingAPI.Controllers.AccountsController.GetAccounts(System.String,System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
-            Retrieves a list of accounts based off the parameters
+            Retrieves a list of accounts based off user specifications
             </summary>
-            <param name="name">Name which is used to filter results</param>
+            <param name="name">Only results that contain this name will be reported</param>
             <param name="sortType">Determines which way the list will be sorted. Accepts name and balance, and is
             null by default</param>
             <param name="isDescending">Determines if the sort order will be Ascending or Descending</param>
@@ -68,7 +68,7 @@
             <summary>
             Creates a JWT
             </summary>
-            <returns>A JWT allowing access to Accounts controller </returns>
+            <returns>A JWT allowing access to Accounts controller</returns>
         </member>
         <member name="T:Level4BankingAPI.Migrations.AccountDBInitialMigration">
             <inheritdoc />
