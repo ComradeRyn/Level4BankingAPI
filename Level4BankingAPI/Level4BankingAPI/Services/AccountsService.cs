@@ -21,10 +21,12 @@ public class AccountsService
     
     public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
-        if (request.PageSize > Values.MaxPageSize)
+        if (request.PageSize is > Values.MaxPageSize or <= 0)
         {
             return (new ApiResponse<IEnumerable<Account>>(
-                HttpStatusCode.NotFound, Messages.InvalidPageSize), null);
+                HttpStatusCode.NotFound, 
+                Messages.InvalidPageSize), 
+                null);
         }
 
         if (request.SortType is not null 
@@ -32,7 +34,9 @@ public class AccountsService
             && request.SortType is not "balance")
         {
             return (new ApiResponse<IEnumerable<Account>>(
-                HttpStatusCode.BadRequest, Messages.InvalidSearchType), null);
+                HttpStatusCode.BadRequest, 
+                Messages.InvalidSearchType), 
+                null);
         }
         
         var (matchedAccounts, paginationMetadata) = await _accountsRepository.GetAccounts(

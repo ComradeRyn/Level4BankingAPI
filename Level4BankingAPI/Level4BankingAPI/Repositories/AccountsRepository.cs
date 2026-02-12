@@ -30,7 +30,7 @@ public class AccountsRepository : IAccountsRepository
 
         if (!string.IsNullOrWhiteSpace(sortType))
         {
-            switch (sortType.ToLower().Trim())
+            switch (sortType)
             {
                 case "name":
                     collection = collection.OrderBy(account => account.HolderName);
