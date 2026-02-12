@@ -46,21 +46,15 @@ public class AccountsRepository : IAccountsRepository
             pageSize,
             pageNumber);
         
-        List<Account> collectionToReturn;
+        var collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
+            .ToListAsync();
+        
         if (isDescending)
         {
-            collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
-                .Reverse()
-                .ToListAsync();
+            collectionToReturn.Reverse();
         }
-        else
-        {
-            collectionToReturn = await collection.Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
-                .ToListAsync();
-        }
-        
+
         return (collectionToReturn, paginationMetadata);
     }
 
