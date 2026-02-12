@@ -10,11 +10,16 @@ This API allows for:
 * Making a withdraw
 * Making a transfer between accounts
 * Currency conversion for a specified account
+* The acquisition of an authentication token
 
 ## Usage
 This API can be interacted with through its endpoints. While launched in develper mode, these endpoint are exposed 
 through a Swagger page with can be found at http://localhost:5021/swagger/index.html. This page contains documentation on each endpoint
 and their parameters.
+### Authentication
+To use any of the endpoints which interact with account data, you first must acquired a JWT from the authentication
+endpoint.
+
 ## Hosting
 After cloning the project, the requirements to host this API on your machine are the following:
 * An API key to the web address https://api.freecurrencyapi.com. 
@@ -23,7 +28,7 @@ This is how the conversion functionality is facilitated. The API key can be plac
 * A SQL server to store the account data. Your connection string can be placed into the appsettings json as the 
 `AccountContext` variable.
 
-## Dependencies
+### Dependencies
 This project uses the following packages which can all be obtained through the nuget package manager:
 * `Microsoft.AspNetCore.Authentication.JwtBearer`
 * `Microsoft.AspNetCore.OpenApi`
