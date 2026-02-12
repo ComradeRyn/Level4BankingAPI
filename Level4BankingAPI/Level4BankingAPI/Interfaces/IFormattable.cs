@@ -15,7 +15,7 @@ public interface IFormattable
         return buffer.ToString();
     }
 
-    public void CreateHeader(StringBuilder buffer)
+    void CreateHeader(StringBuilder buffer)
     {
         var propertyInfos = GetType().GetProperties();
         buffer.Append(propertyInfos[0].Name);
@@ -26,7 +26,7 @@ public interface IFormattable
         }
     }
 
-    public void CreateRow(StringBuilder buffer)
+    void CreateRow(StringBuilder buffer)
     {
         var propertyInfos = GetType().GetProperties();
         if (propertyInfos.Length != 0)
