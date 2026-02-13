@@ -7,7 +7,7 @@ public interface IFormattable
     string Format()
     {
         var buffer = new StringBuilder();
-        CreateHeader(buffer);
+        CreateHeader(GetType(), buffer);
         buffer.Append('\n');
         CreateRow(buffer);
 
@@ -32,18 +32,11 @@ public interface IFormattable
     static void CreateHeader(Type type, StringBuilder buffer)
     {
         var propertyInfos = type.GetProperties();
-        buffer.Append(propertyInfos[0].Name);
-        for (var i = 1; i < propertyInfos.Length; i++)
+        if (propertyInfos.Length != 0)
         {
-            buffer.Append(',');
-            buffer.Append(propertyInfos[i].Name);
+            buffer.Append(propertyInfos[0].Name);
         }
-    }
-    
-    private void CreateHeader(StringBuilder buffer)
-    {
-        var propertyInfos = GetType().GetProperties();
-        buffer.Append(propertyInfos[0].Name);
+        
         for (var i = 1; i < propertyInfos.Length; i++)
         {
             buffer.Append(',');
