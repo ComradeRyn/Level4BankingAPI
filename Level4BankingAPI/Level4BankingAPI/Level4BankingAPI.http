@@ -7,7 +7,7 @@ Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
-  "name": "Joker M Yuncza"
+  "name": "Colin J Yuncza"
 }
 
 > {%
@@ -17,7 +17,7 @@ Authorization: Bearer {{auth_token}}
 <> 2026-01-23T142444.200.json
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/f44cd5f2-9e75-438d-a0c4-b5dfbfe622fe
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/40d405bc-f61c-40be-8cc6-68507ae4c74e
 Authorization: Bearer {{auth_token}}
 Accept: text/csv
 
@@ -29,7 +29,7 @@ Accept: text/csv
 <> 2026-01-23T142447.200.json
 
 ###
-POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
+POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/40d405bc-f61c-40be-8cc6-68507ae4c74e/deposits
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}
@@ -62,7 +62,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/f44cd5f2-9e75-438d-a0c4-b5dfbfe622fe/convert
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/f141f0c5-f2d7-4613-b006-317fece358c5/convert
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}
@@ -74,7 +74,7 @@ Authorization: Bearer {{auth_token}}
 ###
 GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortBy=name&pageNumber=1&pageSize=20&isDescending=false
 Content-Type: application/json
-Accept: application/json
+Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
@@ -82,7 +82,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-# @name create
+# @name create 
 GET http://{{Level4BankingAPI_HostAddress}}/api/Authentication
 Content-Type: application/json
 Accept: application/json

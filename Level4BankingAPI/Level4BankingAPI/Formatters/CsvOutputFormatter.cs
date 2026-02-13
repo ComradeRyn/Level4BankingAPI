@@ -22,13 +22,12 @@ public class CsvOutputFormatter : TextOutputFormatter
         if (context.Object is IEnumerable<IFormattable> formattableEnumerable)
         {
             var buffer = new StringBuilder();
-            var formattableItems = formattableEnumerable.ToList();
-            formattableItems[0].CreateHeader(buffer);
-
-            foreach (var formattable in formattableItems)
+            var formattableType = formattableEnumerable.GetType().GetGenericArguments()[0];
+            IFormattable.CreateHeader(formattableType, buffer);
+            foreach (var formattableItem in formattableEnumerable)
             {
                 buffer.Append('\n');
-                formattable.CreateRow(buffer);
+                formattableItem.CreateRow(buffer);
             }
 
             formattedData = buffer.ToString();
