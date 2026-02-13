@@ -14,28 +14,6 @@ public interface IFormattable
         return buffer.ToString();
     }
 
-   private void CreateHeader(StringBuilder buffer)
-    {
-        var propertyInfos = GetType().GetProperties();
-        buffer.Append(propertyInfos[0].Name);
-        for (var i = 1; i < propertyInfos.Length; i++)
-        {
-            buffer.Append(',');
-            buffer.Append(propertyInfos[i].Name);
-        }
-    }
-
-    static void CreateHeader(Type type, StringBuilder buffer)
-    {
-        var propertyInfos = type.GetProperties();
-        buffer.Append(propertyInfos[0].Name);
-        for (var i = 1; i < propertyInfos.Length; i++)
-        {
-            buffer.Append(',');
-            buffer.Append(propertyInfos[i].Name);
-        }
-    }
-
     void CreateRow(StringBuilder buffer)
     {
         var propertyInfos = GetType().GetProperties();
@@ -48,6 +26,28 @@ public interface IFormattable
         {
             buffer.Append(',');
             buffer.Append(propertyInfos[i].GetValue(this));
+        }
+    }
+    
+    static void CreateHeader(Type type, StringBuilder buffer)
+    {
+        var propertyInfos = type.GetProperties();
+        buffer.Append(propertyInfos[0].Name);
+        for (var i = 1; i < propertyInfos.Length; i++)
+        {
+            buffer.Append(',');
+            buffer.Append(propertyInfos[i].Name);
+        }
+    }
+    
+    private void CreateHeader(StringBuilder buffer)
+    {
+        var propertyInfos = GetType().GetProperties();
+        buffer.Append(propertyInfos[0].Name);
+        for (var i = 1; i < propertyInfos.Length; i++)
+        {
+            buffer.Append(',');
+            buffer.Append(propertyInfos[i].Name);
         }
     }
 }

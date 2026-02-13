@@ -35,8 +35,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 
         else
         {
-            var formattableData = context.Object as IFormattable;
-            formattedData = formattableData!.Format();
+            formattedData = (context.Object as IFormattable)!.Format();
         }
         
         await context.HttpContext.Response.WriteAsync(formattedData, selectedEncoding);
