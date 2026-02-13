@@ -22,8 +22,7 @@ public class CsvOutputFormatter : TextOutputFormatter
         if (context.Object is IEnumerable<IFormattable> formattableEnumerable)
         {
             var buffer = new StringBuilder();
-            var formattableType = formattableEnumerable.GetType().GetGenericArguments()[0];
-            IFormattable.CreateHeader(formattableType, buffer);
+            IFormattable.CreateHeader(formattableEnumerable.GetType().GetGenericArguments()[0], buffer);
             foreach (var formattableItem in formattableEnumerable)
             {
                 buffer.Append('\n');
