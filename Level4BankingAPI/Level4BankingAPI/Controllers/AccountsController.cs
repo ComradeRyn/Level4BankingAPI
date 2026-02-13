@@ -31,9 +31,9 @@ namespace Level4BankingAPI.Controllers
         /// <returns>A list of accounts based off the entered parameters. If no parameters are entered,
         /// all entries are returned</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(GetAccountsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Account>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetAccountsResponse>> GetAccounts(
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(
             string? name = null,
             string? sortBy = null,
             bool isDescending = false,

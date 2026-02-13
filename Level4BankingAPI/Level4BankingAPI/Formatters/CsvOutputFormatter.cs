@@ -14,11 +14,32 @@ public class CsvOutputFormatter : TextOutputFormatter
     }
 
     protected override bool CanWriteType(Type? type)
-        => typeof(IFormattable).IsAssignableFrom(type);
+        => typeof(IFormattable).IsAssignableFrom(type) || typeof(IEnumerable<IFormattable>).IsAssignableFrom(type);
 
     public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
     {
-        var toReturn = context.Object as IFormattable;
-        await context.HttpContext.Response.WriteAsync(toReturn!.Format(), selectedEncoding);
+        string formattedData;
+        if (context.Object is IEnumerable<IFormattable> formattableEnumerable)
+        {
+            var buffer = new StringBuilder();
+            var formattableItems = formattableEnumerable.ToList();
+            formattableItems[0].CreateHeader(buffer);
+
+            foreach (var formattable in formattableItems)
+            {
+                buffer.Append('\n');
+                formattable.CreateRow(buffer);
+            }
+
+            formattedData = buffer.ToString();
+        }
+
+        else
+        {
+            var formattableData = context.Object as IFormattable;
+            formattedData = formattableData!.Format();
+        }
+        
+        await context.HttpContext.Response.WriteAsync(formattedData, selectedEncoding);
     }
 }
