@@ -43,13 +43,13 @@ public class AccountsRepository : IAccountsRepository
         if (query is null)
         {
             return (new List<Account>(), 
-                new PaginationMetadata(0, pageSize, pageNumber));
+                new PaginationMetadata(pageNumber, pageSize, 0));
         }
         
         var itemCount = await query.CountAsync();
-        var paginationMetadata = new PaginationMetadata(itemCount,
+        var paginationMetadata = new PaginationMetadata(pageNumber,
             pageSize,
-            pageNumber);
+            itemCount);
         
         var accounts = await query.Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
