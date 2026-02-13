@@ -7,5 +7,7 @@ public record GetAccountsRequest(
     int PageNumber,
     int PageSize)
 {
+    public string? SortBy { get; set; } = SortBy;
     public int PageSize { get; set; } = PageSize;
+    public int PageNumber { get; set; } = PageNumber;
 }

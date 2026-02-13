@@ -10,6 +10,7 @@ namespace Level4BankingAPI.Services;
 
 public class AccountsService
 {
+    private const int MaxPageSize = 20;
     private const string NameRegexp = @"([A-Z][a-z]+)\s(([A-Z][a-z]*)\s)?([A-Z][a-z]+)";
     private readonly IAccountsRepository _accountsRepository;
     private readonly ICurrencyClient _currencyClient;
@@ -22,17 +23,31 @@ public class AccountsService
     
     public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
+        if (request.SortBy is not null)
+        {
+            request.SortBy = request.SortBy.Trim().ToLower();
+            if (request.SortBy is not ("name" or "balance"))
+            {
+                return (new ApiResponse<IEnumerable<Account>>(
+                HttpStatusCode.BadRequest, 
+                Messages.InvalidSearchType), 
+                null);
+            }
+        }
+        
         if (request.PageSize <= 0)
         {
             request.PageSize = 1;
         }
-        
-        if (request.SortBy is not (null or "name" or "balance"))
+
+        if (request.PageSize > MaxPageSize)
         {
-            return (new ApiResponse<IEnumerable<Account>>(
-                HttpStatusCode.BadRequest, 
-                Messages.InvalidSearchType), 
-                null);
+            request.PageSize = MaxPageSize;
+        }
+
+        if (request.PageNumber <= 0)
+        {
+            request.PageNumber = 1;
         }
         
         var (matchedAccounts, paginationMetadata) = await _accountsRepository.GetAccounts(

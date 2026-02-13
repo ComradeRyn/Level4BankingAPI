@@ -12,7 +12,7 @@
             <param name="sortBy">Sort by name or balance</param>
             <param name="isDescending">Determines if the sort order will be Ascending or Descending</param>
             <param name="pageNumber">Sets the page that will be retrieved</param>
-            <param name="pageSize">Sets the number of entries which will appear on a given page</param>
+            <param name="pageSize">Sets the number of entries which will appear on a given page (Max of 20)</param>
             <returns>A list of accounts based off the entered parameters. If no parameters are entered,
             all entries are returned</returns>
         </member>
