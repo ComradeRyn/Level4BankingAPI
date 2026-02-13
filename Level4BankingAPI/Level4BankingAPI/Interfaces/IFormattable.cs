@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 namespace Level4BankingAPI.Interfaces;
 
@@ -31,26 +30,13 @@ public interface IFormattable
         var propertyInfos = GetType().GetProperties();
         if (propertyInfos.Length != 0)
         {
-            AppendValue(propertyInfos[0], buffer);
+            buffer.Append(propertyInfos[0].GetValue(this));
         }
         
         for (var i = 1; i < propertyInfos.Length; i++)
         {
             buffer.Append(',');
-            AppendValue(propertyInfos[i], buffer);
-        }
-    }
-
-    private void AppendValue(PropertyInfo propertyInfo, StringBuilder buffer)
-    {
-        if (propertyInfo.PropertyType == typeof(string))
-        {
-            buffer.Append($"\"{propertyInfo.GetValue(this)}\"");
-        }
-            
-        else
-        {
-            buffer.Append(propertyInfo.GetValue(this));
+            buffer.Append(propertyInfos[i].GetValue(this));
         }
     }
 }
