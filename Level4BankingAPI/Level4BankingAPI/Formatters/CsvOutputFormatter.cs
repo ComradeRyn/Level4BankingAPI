@@ -32,7 +32,6 @@ public class CsvOutputFormatter : TextOutputFormatter
             buffer.Append(formattableEnumerator.Current.CreateHeader());
             do
             {
-                buffer.Append('\n');
                 buffer.Append(formattableEnumerator.Current.FormatCsv());
             } while (formattableEnumerator.MoveNext());
             
@@ -42,7 +41,7 @@ public class CsvOutputFormatter : TextOutputFormatter
         }
         
         var formattableObject = context.Object as ICsvFormatter;
-        var formattedData = $"{formattableObject!.CreateHeader()}\n{formattableObject.FormatCsv()}";
+        var formattedData = $"{formattableObject!.CreateHeader()}{formattableObject.FormatCsv()}";
         
         await context.HttpContext.Response.WriteAsync(formattedData, selectedEncoding);
     }

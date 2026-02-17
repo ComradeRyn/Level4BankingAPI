@@ -8,8 +8,8 @@ public record Account(
     decimal Amount) : ICsvFormatter
 {
     public string FormatCsv()
-        => $"{Id},{HolderName},{Amount}";
+        => $"{Id},{HolderName},{Amount}\n";
 
     public string CreateHeader()
-        => "Id,HolderName,Amount";
+        => "Id,HolderName,Amount\n";
 }
