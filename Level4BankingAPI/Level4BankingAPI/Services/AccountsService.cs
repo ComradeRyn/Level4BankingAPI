@@ -23,16 +23,20 @@ public class AccountsService
     
     public async Task<(ApiResponse<IEnumerable<Account>>, PaginationMetadata?)> GetAccounts(GetAccountsRequest request)
     {
-        var (name, sortBy, isDescending, pageNumber, pageSize) = request;
+        var (name,
+            sortBy,
+            isDescending,
+            pageNumber,
+            pageSize) = request;
         if (sortBy is not null)
         {
             sortBy = sortBy.Trim().ToLower();
             if (sortBy is not ("name" or "balance"))
             {
                 return (new ApiResponse<IEnumerable<Account>>(
-                HttpStatusCode.BadRequest, 
-                Messages.InvalidSearchType), 
-                null);
+                        HttpStatusCode.BadRequest,
+                        Messages.InvalidSearchType),
+                    null);
             }
         }
 

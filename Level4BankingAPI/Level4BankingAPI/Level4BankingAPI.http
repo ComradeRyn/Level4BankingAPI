@@ -8,7 +8,7 @@ Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
-  "name": "Connor E Yuncza"
+  "name": "Mom M Yuncza"
 }
 
 > {%
@@ -18,7 +18,7 @@ Authorization: Bearer {{auth_token}}
 <> 2026-01-23T142444.200.json
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/40d405bc-f61c-40be-8cc6-68507ae4c74e
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}
 Authorization: Bearer {{auth_token}}
 Accept: text/csv
 
@@ -75,7 +75,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=Name&pageNumber=1&pageSize=10&isDescending=false
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=Name&pageNumber=1&pageSize=10&isDescending=true
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}
