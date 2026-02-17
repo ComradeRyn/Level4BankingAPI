@@ -2,6 +2,6 @@
 
 public interface ICsvFormatter
 {
-    string CreateBody();
+    string FormatCsv();
     string CreateHeader();
 }

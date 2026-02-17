@@ -7,7 +7,7 @@ public record Account(
     string HolderName,
     decimal Amount) : ICsvFormatter
 {
-    public string CreateBody()
+    public string FormatCsv()
         => $"{Id},{HolderName},{Amount}";
 
     public string CreateHeader()
