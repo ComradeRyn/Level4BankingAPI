@@ -75,7 +75,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=balance&pageNumber=1&pageSize=10&isDescending=false
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=Name&pageNumber=1&pageSize=10&isDescending=false
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}

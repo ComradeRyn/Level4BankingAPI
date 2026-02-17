@@ -34,10 +34,13 @@ public class AccountsRepository : IAccountsRepository
             Expression<Func<Account, object>> sortPattern = sortBy switch
             {
                 "name" => account => account.HolderName,
-                _ => account => account.Balance
+                "balance" => account => account.Balance,
+                _ => account => account.Id
             };
 
-            query = isDescending ? query.OrderByDescending(sortPattern) : query.OrderBy(sortPattern);
+            query = isDescending
+                ? query.OrderByDescending(sortPattern)
+                : query.OrderBy(sortPattern);
         }
         
         var itemCount = await query.CountAsync();
