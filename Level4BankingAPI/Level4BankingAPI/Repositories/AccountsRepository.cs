@@ -31,11 +31,16 @@ public class AccountsRepository : IAccountsRepository
 
         if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            Expression<Func<Account, object>> sortPattern = sortBy switch
+            Expression<Func<Account, object>> sortPattern;
+            if (sortBy == "name")
             {
-                "name" => account => account.HolderName,
-                _ => account => account.Balance
-            };
+                sortPattern = account => account.HolderName;
+            }
+
+            else
+            {
+                sortPattern = account => account.Balance;
+            }
 
             if (isDescending)
             {
