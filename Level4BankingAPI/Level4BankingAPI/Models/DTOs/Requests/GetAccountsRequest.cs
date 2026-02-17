@@ -3,11 +3,6 @@
 public record GetAccountsRequest(
     string? Name,
     string? SortBy,
-    bool Reverse,
+    bool IsDescending,
     int PageNumber,
-    int PageSize)
-{
-    public string? SortBy { get; set; } = SortBy;
-    public int PageSize { get; set; } = PageSize;
-    public int PageNumber { get; set; } = PageNumber;
-}
+    int PageSize);
