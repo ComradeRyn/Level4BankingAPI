@@ -1,4 +1,5 @@
-﻿using Level4BankingAPI.Interfaces;
+﻿using System.Linq.Expressions;
+using Level4BankingAPI.Interfaces;
 using Level4BankingAPI.Models;
 using Level4BankingAPI.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -30,20 +31,21 @@ public class AccountsRepository : IAccountsRepository
 
         if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            query = (sortBy, isDescending) switch
+            Expression<Func<Account, object>> sortPattern = sortBy switch
             {
-                ("name", true) => query.OrderByDescending(account => account.HolderName),
-                ("balance", true) => query.OrderByDescending(account => account.Balance),
-                ("name", false) => query.OrderBy(account => account.HolderName),
-                ("balance", false) => query.OrderBy(account => account.Balance),
-                _ => null
+                "name" => account => account.HolderName,
+                _ => account => account.Balance
             };
-        }
 
-        if (query is null)
-        {
-            return (new List<Account>(), 
-                new PaginationMetadata(pageNumber, pageSize, 0));
+            if (isDescending)
+            {
+                query = query.OrderByDescending(sortPattern);
+            }
+            
+            else
+            {
+                query = query.OrderBy(sortPattern);
+            }
         }
         
         var itemCount = await query.CountAsync();
