@@ -8,7 +8,7 @@ Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
-  "name": "Colin J Yuncza"
+  "name": "Connor E Yuncza"
 }
 
 > {%
@@ -55,6 +55,7 @@ Authorization: Bearer {{auth_token}}
 ###
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts/transfers
 Content-Type: application/json
+Accept: text/csv
 Authorization: Bearer {{auth_token}}
 
 {
@@ -74,7 +75,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=balance&pageNumber=2&pageSize=2&isDescending=false
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=balance&pageNumber=1&pageSize=10&isDescending=false
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}

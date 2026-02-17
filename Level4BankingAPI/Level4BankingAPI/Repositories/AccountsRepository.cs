@@ -31,26 +31,13 @@ public class AccountsRepository : IAccountsRepository
 
         if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            Expression<Func<Account, object>> sortPattern;
-            if (sortBy == "name")
+            Expression<Func<Account, object>> sortPattern = sortBy switch
             {
-                sortPattern = account => account.HolderName;
-            }
+                "name" => account => account.HolderName,
+                _ => account => account.Balance
+            };
 
-            else
-            {
-                sortPattern = account => account.Balance;
-            }
-
-            if (isDescending)
-            {
-                query = query.OrderByDescending(sortPattern);
-            }
-            
-            else
-            {
-                query = query.OrderBy(sortPattern);
-            }
+            query = isDescending ? query.OrderByDescending(sortPattern) : query.OrderBy(sortPattern);
         }
         
         var itemCount = await query.CountAsync();
