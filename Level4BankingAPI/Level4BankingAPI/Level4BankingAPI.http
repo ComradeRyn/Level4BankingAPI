@@ -1,5 +1,5 @@
 @Level4BankingAPI_HostAddress = http://localhost:5021
-@id = 9541f2d2-0eed-4caa-b379-6841f4a0ab60
+@id = a6a3a66d-d19a-46d1-84d8-bb2470d75ce8
 
 # @name create
 POST http://{{Level4BankingAPI_HostAddress}}/api/Accounts
@@ -64,7 +64,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/a6a3a66d-d19a-46d1-84d8-bb2470d75ce8/convert
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}
@@ -74,7 +74,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?sortBy=name&pageNumber=1&pageSize=20&isDescending=false
+GET http://{{Level4BankingAPI_HostAddress}}/api/Accounts?name=c&sortBy=Balance&pageNumber=1&pageSize=3&isDescending=true
 Content-Type: application/json
 Accept: text/csv
 Authorization: Bearer {{auth_token}}
@@ -87,7 +87,7 @@ Authorization: Bearer {{auth_token}}
 # @name create 
 GET http://{{Level4BankingAPI_HostAddress}}/api/Authentication
 Content-Type: application/json
-Accept: text/csv
+Accept: application/json
 
 > {%
     client.global.set("auth_token", response.body.token)

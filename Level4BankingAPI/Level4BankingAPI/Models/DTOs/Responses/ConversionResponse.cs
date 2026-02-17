@@ -5,7 +5,7 @@ namespace Level4BankingAPI.Models.DTOs.Responses;
 
 public record ConversionResponse(Dictionary<string, decimal> ConvertedCurrencies) : ICsvFormatter
 {
-    public string Format()
+    public string CreateBody()
     {
         if (ConvertedCurrencies.Count == 0)
         {

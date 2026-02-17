@@ -20,29 +20,29 @@ public class CsvOutputFormatter : TextOutputFormatter
     {
         if (context.Object is IEnumerable<ICsvFormatter> formattableEnumerable)
         {
-            var formattableList = formattableEnumerable.ToList();
-            if (formattableList.Count == 0)
+            using var formattableEnumerator = formattableEnumerable.GetEnumerator();
+            if (!formattableEnumerator.MoveNext())
             {
                 await context.HttpContext.Response.WriteAsync("", selectedEncoding);
-
+                
                 return;
             }
-
+            
             var buffer = new StringBuilder();
-            buffer.Append(formattableList[0].CreateHeader());
-            foreach (var element in formattableList)
+            buffer.Append(formattableEnumerator.Current.CreateHeader());
+            do
             {
                 buffer.Append('\n');
-                buffer.Append(element.Format());
-            }
-
+                buffer.Append(formattableEnumerator.Current.CreateBody());
+            } while (formattableEnumerator.MoveNext());
+            
             await context.HttpContext.Response.WriteAsync(buffer.ToString(), selectedEncoding);
             
             return;
         }
         
         var formattableObject = context.Object as ICsvFormatter;
-        var formattedData = $"{formattableObject!.CreateHeader()}\n{formattableObject.Format()}";
+        var formattedData = $"{formattableObject!.CreateHeader()}\n{formattableObject.CreateBody()}";
         
         await context.HttpContext.Response.WriteAsync(formattedData, selectedEncoding);
     }

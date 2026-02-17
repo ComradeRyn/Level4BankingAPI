@@ -4,7 +4,7 @@ namespace Level4BankingAPI.Models.DTOs.Responses;
 
 public record TokenResponse(string Token) : ICsvFormatter
 {
-    public string Format()
+    public string CreateBody()
         => Token;
 
     public string CreateHeader()
