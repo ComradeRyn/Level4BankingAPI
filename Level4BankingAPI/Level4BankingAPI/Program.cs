@@ -17,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
-   options.ReturnHttpNotAcceptable = true;
    options.OutputFormatters.Add(new CsvOutputFormatter());
 });
 

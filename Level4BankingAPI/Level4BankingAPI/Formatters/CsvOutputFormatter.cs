@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using Level4BankingAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
 
 namespace Level4BankingAPI.Formatters;
 
@@ -14,28 +14,35 @@ public class CsvOutputFormatter : TextOutputFormatter
     }
 
     protected override bool CanWriteType(Type? type)
-        => typeof(IFormattable).IsAssignableFrom(type) || typeof(IEnumerable<IFormattable>).IsAssignableFrom(type);
+        => typeof(ICsvFormatter).IsAssignableFrom(type) || typeof(IEnumerable<ICsvFormatter>).IsAssignableFrom(type);
 
     public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
     {
-        string formattedData;
-        if (context.Object is IEnumerable<IFormattable> formattableEnumerable)
+        if (context.Object is IEnumerable<ICsvFormatter> formattableEnumerable)
         {
-            var buffer = new StringBuilder();
-            IFormattable.CreateHeader(formattableEnumerable.GetType().GetGenericArguments()[0], buffer);
-            foreach (var formattableItem in formattableEnumerable)
+            var formattableList = formattableEnumerable.ToList();
+            if (formattableList.Count == 0)
             {
-                buffer.Append('\n');
-                formattableItem.CreateRow(buffer);
+                await context.HttpContext.Response.WriteAsync("", selectedEncoding);
+
+                return;
             }
 
-            formattedData = buffer.ToString();
-        }
+            var buffer = new StringBuilder();
+            buffer.Append(formattableList[0].CreateHeader());
+            foreach (var element in formattableList)
+            {
+                buffer.Append('\n');
+                buffer.Append(element.Format());
+            }
 
-        else
-        {
-            formattedData = (context.Object as IFormattable)!.Format();
+            await context.HttpContext.Response.WriteAsync(buffer.ToString(), selectedEncoding);
+            
+            return;
         }
+        
+        var formattableObject = context.Object as ICsvFormatter;
+        var formattedData = $"{formattableObject!.CreateHeader()}\n{formattableObject.Format()}";
         
         await context.HttpContext.Response.WriteAsync(formattedData, selectedEncoding);
     }

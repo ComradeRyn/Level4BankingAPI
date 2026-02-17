@@ -1,8 +1,15 @@
-﻿using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
+﻿using Level4BankingAPI.Interfaces;
 
 namespace Level4BankingAPI.Models.DTOs;
 
 public record Account(
     string Id,
     string HolderName,
-    decimal Amount) : IFormattable;
+    decimal Amount) : ICsvFormatter
+{
+    public string Format()
+        => $"{Id},{HolderName},{Amount}";
+
+    public string CreateHeader()
+        => "Id,HolderName,Amount";
+}

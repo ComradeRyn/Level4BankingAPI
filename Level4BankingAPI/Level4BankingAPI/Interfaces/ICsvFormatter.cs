@@ -2,45 +2,8 @@
 
 namespace Level4BankingAPI.Interfaces;
 
-public interface IFormattable
+public interface ICsvFormatter
 {
-    string Format()
-    {
-        var buffer = new StringBuilder();
-        CreateHeader(GetType(), buffer);
-        buffer.Append('\n');
-        CreateRow(buffer);
-
-        return buffer.ToString();
-    }
-
-    void CreateRow(StringBuilder buffer)
-    {
-        var propertyInfos = GetType().GetProperties();
-        if (propertyInfos.Length != 0)
-        {
-            buffer.Append(propertyInfos[0].GetValue(this));
-        }
-        
-        for (var i = 1; i < propertyInfos.Length; i++)
-        {
-            buffer.Append(',');
-            buffer.Append(propertyInfos[i].GetValue(this));
-        }
-    }
-    
-    static void CreateHeader(Type type, StringBuilder buffer)
-    {
-        var propertyInfos = type.GetProperties();
-        if (propertyInfos.Length != 0)
-        {
-            buffer.Append(propertyInfos[0].Name);
-        }
-        
-        for (var i = 1; i < propertyInfos.Length; i++)
-        {
-            buffer.Append(',');
-            buffer.Append(propertyInfos[i].Name);
-        }
-    }
+    string Format();
+    string CreateHeader();
 }

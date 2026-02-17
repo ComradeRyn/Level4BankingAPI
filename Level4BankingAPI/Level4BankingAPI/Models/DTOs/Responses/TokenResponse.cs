@@ -1,5 +1,12 @@
-﻿using IFormattable = Level4BankingAPI.Interfaces.IFormattable;
+﻿using Level4BankingAPI.Interfaces;
 
 namespace Level4BankingAPI.Models.DTOs.Responses;
 
-public record TokenResponse(string Token) : IFormattable;
+public record TokenResponse(string Token) : ICsvFormatter
+{
+    public string Format()
+        => Token;
+
+    public string CreateHeader()
+        => "Token";
+}
